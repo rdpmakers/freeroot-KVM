@@ -1,8 +1,10 @@
-# Foxytoux Installer
+# Foxytoux Installer [MODIFIED]
 
 ## Overview
 
-This shell script is designed to automate the installation of Foxytoux, a lightweight Ubuntu environment using Proot.
+This shell script is designed to automate the installation of Foxytoux, a lightweight Ubuntu 20 environment using Proot.
+Then we will boot Ubuntu 22 with qemu!
+Yeah, you may hear this is as a silly thing, as we boot ubuntu in ubuntu.
 
 ## Prerequisites
 
@@ -16,8 +18,8 @@ This shell script is designed to automate the installation of Foxytoux, a lightw
 1. Clone the repository:
 
     ```sh
-    git clone https://github.com/foxytouxxx/freeroot.git
-    cd freeroot
+    git clone https://github.com/rdpmakers/freeroot-KVM
+    cd freeroot-KVM
     ```
 
 2. Run the installer script:
@@ -41,6 +43,7 @@ This Foxytoux Installer script is released under the [MIT License](LICENSE).
 
 ## Credits
 
+me myself editing this script. but the original project was maintained bt:
 Foxytoux Installer is developed and maintained by RecodeStudios.Cloud.
 This installer has been made possible thanks to [dxomg](https://github.com/dxomg) for his proot code
 
