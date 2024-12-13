@@ -47,6 +47,10 @@ Yeah, you may hear this is as a silly thing, as we boot ubuntu in ubuntu.
 - x86_64 (amd64)
 - aarch64 (arm64)
 
+## Try it
+# mybinder
+754 GB RAM & 72 CPU's👉 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/git/https%3A%2F%2Fgithub.com%2Frdpmakers%2Ffreeroot-KVM.git/main)
+
 ## License
 
 This Foxytoux Installer script is released under the [MIT License](LICENSE).
