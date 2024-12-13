@@ -72,26 +72,12 @@ if [ -e $ROOTFS_DIR/root/ubuntu-22.qcow2 ]; then
     # If installed, directly run QEMU.
     $ROOTFS_DIR/usr/local/bin/proot \
     --rootfs="${ROOTFS_DIR}" \
-    --link2symlink \
-    --kill-on-exit \
-    --root-id \
-    --cwd=/root \
-    --bind=/proc \
-    --bind=/dev \
-    --bind=/sys \
-    --bind=/tmp \
+    -0 -w "/root" -b /dev -b /sys -b /proc -b /etc/resolv.conf --kill-on-exit \
     /bin/sh -c "qemu-system-x86_64 -drive file=ubuntu-22.qcow2,format=qcow2 -drive file=user-data.img,format=raw -device virtio-net-pci,netdev=n0 -netdev user,id=n0 -m 4G -accel tcg -cpu qemu64 -nographic"
 else
     # If not installed, start the installation and QEMU.
     $ROOTFS_DIR/usr/local/bin/proot \
     --rootfs="${ROOTFS_DIR}" \
-    --link2symlink \
-    --kill-on-exit \
-    --root-id \
-    --cwd=/root \
-    --bind=/proc \
-    --bind=/dev \
-    --bind=/sys \
-    --bind=/tmp \
+    -0 -w "/root" -b /dev -b /sys -b /proc -b /etc/resolv.conf --kill-on-exit \
     /bin/sh -c "apt update && apt install curl -y && curl -Lo ubuntu-22.qcow2 https://cloud-images.ubuntu.com/minimal/releases/jammy/release/ubuntu-22.04-minimal-cloudimg-amd64.img && apt install apt install qemu qemu-utils qemu-system-x86 -y && curl -Lo user-data https://raw.githubusercontent.com/cloudgamingrage/install.sh/refs/heads/main/user-data && curl -Lo user-data.img https://github.com/cloudgamingrage/install.sh/raw/refs/heads/main/user-data.img && qemu-img resize ubuntu-22.qcow2 +10G && qemu-system-x86_64 -drive file=ubuntu-22.qcow2,format=qcow2 -drive file=user-data.img,format=raw -device virtio-net-pci,netdev=n0 -netdev user,id=n0 -m 4G -accel tcg -cpu qemu64 -nographic"
 fi
