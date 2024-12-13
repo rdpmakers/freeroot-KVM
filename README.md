@@ -37,6 +37,11 @@ Yeah, you may hear this is as a silly thing, as we boot ubuntu in ubuntu.
     ```sh
     bash root.sh
     ```
+
+## Login
+user: ubuntu
+password: asdfqwer
+
 ## Supported Architectures
 
 - x86_64 (amd64)
