@@ -39,8 +39,8 @@ Yeah, you may hear this is as a silly thing, as we boot ubuntu in ubuntu.
     ```
 
 ## Login
-user: ubuntu
-password: asdfqwer
+- user: ubuntu
+- password: asdfqwer
 
 ## Supported Architectures
 
