@@ -3,7 +3,7 @@
 ROOTFS_DIR=$(pwd)
 export PATH=$PATH:~/.local/usr/bin
 max_retries=50
-timeout=1
+timeout=5
 ARCH=$(uname -m)
 
 if [ "$ARCH" = "x86_64" ]; then
