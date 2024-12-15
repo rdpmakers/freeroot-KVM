@@ -18,5 +18,6 @@
 - Make directory.
 - Downloads Ubuntu 22 Server image.
 - Boots the Ubuntu 22 Server image.
-- Use SSH for both server and client by [Cloudflare Argo tunnel](https://github.com/cloudflare/cloudflared) by websocket with [Wstunnel](https://github.com/erebe/wstunnel).
-- Saves the datas to Google Drive.
+- Uses [Cloudflare Argo tunnel](https://github.com/cloudflare/cloudflared) and websocket with [Wstunnel](https://github.com/erebe/wstunnel) for SSH Server.
+- Uses [Wstunnel](https://github.com/erebe/wstunnel) for the SSH client.
+- Saves all of the data including log files to Google Drive.
