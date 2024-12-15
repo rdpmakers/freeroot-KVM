@@ -2,8 +2,7 @@
 <h1 align="center">Boot Ubuntu 22 In Google Drive</h1>
 <p align="center">Run Ubuntu 22 Server on Google Colab and save in Google Drive</p>
 <p align="right">
-  <a href="https://colab.research.google.com/github/rdpmakers/freeroot-KVM/blob/main/ipynb/BootUbuntu22-GDrive.ipynb.txt" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a>
-  <a href="https://raw.githubusercontent.com/rdpmakers/freeroot-KVM/refs/heads/main/ipynb/BootUbuntu22-GDrive.ipynb.txt" download><img src="https://cdn-icons-png.flaticon.com/128/10741/10741247.png" alt="Download" width="20" height="20"></a> 
+  <a href="https://colab.research.google.com/github/rdpmakers/freeroot-KVM/blob/main/ipynb/BootUbuntu22-GDrive.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a>
 </p>
 
 ## Benefits
