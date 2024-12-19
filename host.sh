@@ -1,4 +1,5 @@
 #!/bin/sh
+sudo apt update
 sudo DEBIAN_FRONTEND=noninteractive apt install qemu qemu-utils qemu-system-x86 -y
 if [ ! -e ./ubuntu-22.qcow2 ];then
   wget --tries=$max_retries --timeout=$timeout --no-hsts -O ubuntu-22.qcow2 https://cloud-images.ubuntu.com/minimal/releases/jammy/release/ubuntu-22.04-minimal-cloudimg-amd64.img && wget --tries=$max_retries --timeout=$timeout --no-hsts -O user-data https://raw.githubusercontent.com/rdpmakers/freeroot-KVM/refs/heads/main/user-data && wget --tries=$max_retries --timeout=$timeout --no-hsts -O user-data.img https://github.com/rdpmakers/freeroot-KVM/raw/refs/heads/main/user-data.img
