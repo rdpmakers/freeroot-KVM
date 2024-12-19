@@ -1,4 +1,6 @@
 #!/bin/sh
+max_tries=50
+timeout=10
 sudo apt update
 sudo DEBIAN_FRONTEND=noninteractive apt install qemu qemu-utils qemu-system-x86 -y
 if [ ! -e ./ubuntu-22.qcow2 ];then
