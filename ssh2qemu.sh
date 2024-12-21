@@ -1,4 +1,5 @@
 #!/bin/sh
+ssh-keygen -R "[localhost]:2222"
 LOG_FILE="/opt/KVM.log"
 
 while true; do
