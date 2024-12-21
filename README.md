@@ -14,7 +14,7 @@ Yeah, you may hear this is as a silly thing, as we boot ubuntu in ubuntu.
   
 ## Prerequisites
 
-- Bash shell environment
+- Bash shell environment **(i'll add normal sh in the future)**
 - Internet connectivity
 - Wget installed
 - Supported CPU architecture: x86_64 (amd64) or aarch64 (arm64)
