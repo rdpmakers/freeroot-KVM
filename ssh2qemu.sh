@@ -6,7 +6,7 @@ while true; do
   LOGIN_DETECT=$(grep -o 'login:' "$LOG_FILE" | tail -n 1)
   
   if [ -n "$LOGIN_DETECT" ]; then
-    echo "Safe to Remote Shell"
+    echo "Done booting, You'll enter SSH in a few seconds"
     break
   fi
   
