@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ROOTFS_DIR=$(pwd)
-export PATH=$PATH:$ROOTFS_DIR/.local/usr/bin
+export PATH=$PATH:~/.local/usr/bin
 max_retries=50
 timeout=5
 ARCH=$(uname -m)
@@ -70,16 +70,19 @@ clear
 display_gg
 if [ -e $ROOTFS_DIR/root/ubuntu-22.qcow2 ]; then
     # If installed, directly run QEMU.
+    rm $ROOTFS_DIR/opt/KVM.log || true
     $ROOTFS_DIR/usr/local/bin/proot \
     --rootfs="${ROOTFS_DIR}" \
     -0 -w "/root" -b /dev -b /sys -b /proc -b /etc/resolv.conf \
-    /bin/bash -c "screen -wipe ; screen -dmS KVM sh /opt/qemu-boot.sh" &
-    #SSH TO HOST
-    
+    /bin/bash -c "screen -dmS KVM sh /opt/qemu-boot.sh" &
+    echo -e "              Booting..."
+    echo -e "Remember to shutdown using sudo poweroff"
+    sleep 5
     $ROOTFS_DIR/usr/local/bin/proot \
     --rootfs="${ROOTFS_DIR}" \
     -0 -w "/root" -b /dev -b /sys -b /proc -b /etc/resolv.conf \
     /bin/bash /opt/ssh2qemu.sh
+    
 else
     # If not installed, start the installation and QEMU.
     $ROOTFS_DIR/usr/local/bin/proot \
