@@ -73,8 +73,13 @@ if [ -e $ROOTFS_DIR/root/ubuntu-22.qcow2 ]; then
     $ROOTFS_DIR/usr/local/bin/proot \
     --rootfs="${ROOTFS_DIR}" \
     -0 -w "/root" -b /dev -b /sys -b /proc -b /etc/resolv.conf \
-    /bin/bash -c "screen -dmS KVM sh /opt/qemu-boot.sh" &
-    pwd
+    /bin/bash -c "screen -wipe ; screen -dmS KVM sh /opt/qemu-boot.sh" &
+    #SSH TO HOST
+    
+    $ROOTFS_DIR/usr/local/bin/proot \
+    --rootfs="${ROOTFS_DIR}" \
+    -0 -w "/root" -b /dev -b /sys -b /proc -b /etc/resolv.conf \
+    /bin/bash -c 'sshpass -p "asdfqwer" ssh -o StrictHostKeyChecking=no -p2222 ubuntu@localhost'
 else
     # If not installed, start the installation and QEMU.
     $ROOTFS_DIR/usr/local/bin/proot \
