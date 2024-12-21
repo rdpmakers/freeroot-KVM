@@ -1,4 +1,4 @@
-# Foxytoux Installer [MODIFIED]
+# Free KVM Installer [MODIFIED Foxytoux Installer]
 
 ## Overview
 
