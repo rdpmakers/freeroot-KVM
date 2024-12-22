@@ -70,7 +70,9 @@ clear
 display_gg
 if [ -e $ROOTFS_DIR/root/ubuntu-22.qcow2 ]; then
     # If installed, directly run QEMU.
-    rm $ROOTFS_DIR/opt/KVM.log || true
+    if [ -e $ROOTFS_DIR/opt/KVM.log ]; then
+      rm $ROOTFS_DIR/opt/KVM.log
+    fi
     $ROOTFS_DIR/usr/local/bin/proot \
     --rootfs="${ROOTFS_DIR}" \
     -0 -w "/root" -b /dev -b /sys -b /proc -b /etc/resolv.conf \
