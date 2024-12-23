@@ -14,4 +14,4 @@ while true; do
   # Optional: Add a small delay to avoid excessive CPU usage
   sleep 1
 done
-sshpass -p "asdfqwer" ssh -o StrictHostKeyChecking=no -p2222 ubuntu@localhost
+sshpass -p "asdfqwer" ssh -o StrictHostKeyChecking=no -p2222 ubuntu@127.0.0.1
