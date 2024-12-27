@@ -61,9 +61,9 @@ WHITE='\e[0;37m'
 RESET_COLOR='\e[0m'
 
 display_gg() {
-  echo -e "${WHITE}___________________________________________________${RESET_COLOR}"
-  echo -e ""
-  echo -e "           ${CYAN}-----> Trying To Boot Now! <----${RESET_COLOR}"
+  printf "${WHITE}___________________________________________________${RESET_COLOR}"
+  printf ""
+  printf "           ${CYAN}-----> Trying To Boot Now! <----${RESET_COLOR}"
 }
 
 clear
