@@ -18,9 +18,9 @@ fi
 if [ ! -e $ROOTFS_DIR/.installed ]; then
   echo "#######################################################################################"
   echo "#"
-  echo "#                          Foxytoux INSTALLER[modified by rdpmakers]"
+  echo "#                                    PRoot KVM Installer"
   echo "#"
-  echo "#                           Copyright (C) 2024, RecodeStudios.Cloud"
+  echo "#                                Copyright (C) 2024, Rdpmakers"
   echo "#"
   echo "#"
   echo "#######################################################################################"
