@@ -47,8 +47,8 @@ Yeah, you may hear this is as a silly thing, as we boot ubuntu in ubuntu.
 - x86_64 (amd64)
 - aarch64 (arm64)
 ## Storage
-default: 10G
-adding more(10G) so will be 20G: bash noninteractive.sh then qemu-img resize /root/ubuntu-22.qcow2 +10G
+- default: 10G
+- adding more(10G) so will be 20G: bash noninteractive.sh then qemu-img resize /root/ubuntu-22.qcow2 +10G
 ## Something Else Similar
 - **[Recommended]**[Google Colab](https://github.com/rdpmakers/freeroot-KVM/tree/main/ipynb)
 
