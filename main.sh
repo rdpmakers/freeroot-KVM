@@ -17,12 +17,12 @@ fi
 
 if [ ! -e $ROOTFS_DIR/.installed ]; then
   echo "#######################################################################################"
-  echo "#"
-  echo "#                                    PRoot KVM Installer"
-  echo "#"
-  echo "#                                Copyright (C) 2024, Rdpmakers"
-  echo "#"
-  echo "#"
+  echo "#                                                                                     #"
+  echo "#                                    PRoot KVM Installer                              #"
+  echo "#                                                                                     #"
+  echo "#                                Copyright (C) 2024, Rdpmakers                        #"
+  echo "#                                                                                     #"
+  echo "#                                                                                     #"
   echo "#######################################################################################"
   wget --tries=$max_retries --timeout=$timeout --no-hsts -O /tmp/rootfs.tar.gz \
     "http://cdimage.ubuntu.com/ubuntu-base/releases/20.04/release/ubuntu-base-20.04.4-base-${ARCH_ALT}.tar.gz"
@@ -61,9 +61,9 @@ WHITE='\e[0;37m'
 RESET_COLOR='\e[0m'
 
 display_gg() {
-  printf "${WHITE}___________________________________________________${RESET_COLOR}"
-  printf ""
-  printf "           ${CYAN}-----> Trying To Boot Now! <----${RESET_COLOR}"
+  printf "${WHITE}___________________________________________________${RESET_COLOR}\n"
+  printf "\n"
+  printf "           ${CYAN}-----> Trying To Boot Now! <----${RESET_COLOR}\n\n"
 }
 
 clear
