@@ -50,6 +50,7 @@ Yeah, you may hear this is as a silly thing, as we boot ubuntu in ubuntu.
 - default: 10G
 - adding more(10G) so will be 20G: bash noninteractive.sh then qemu-img resize /root/ubuntu-22.qcow2 +10G
 ## Something Else Similar
+- **[Recommended]**[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/rdpmakers/freeroot-KVM/HEAD)
 - **[Recommended]**[Google Colab](https://github.com/rdpmakers/freeroot-KVM/tree/main/ipynb)
 
 ## License
