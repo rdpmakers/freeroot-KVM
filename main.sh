@@ -64,6 +64,7 @@ display_gg() {
   printf "${WHITE}___________________________________________________${RESET_COLOR}\n"
   printf "\n"
   printf "           ${CYAN}-----> Trying To Boot Now! <----${RESET_COLOR}\n\n"
+  echo "https://github.com/rdpmakers/freeroot-KVM fork this if you love it"
 }
 
 clear
