@@ -1,9 +1,10 @@
 #!/bin/sh
 #WARNING!
 #DON'T DELETE THIS FILE
+clear
 echo "YOU WILL BOOT INTO UBUNTU IN 5 SECONDS"
-echo "USERNAME: ubuntu"
-echo "PASSWORD: asdfqwer"
+echo "USERNAME: user"
+echo "PASSWORD: U23rP422w0rd"
 echo "MAKE SURE TO SHUTDOWN USING sudo poweroff COMMAND OR YOUR VM HAS POTENTIAL TO BREAK"
 sleep 5
 cd /root
