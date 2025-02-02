@@ -43,8 +43,8 @@ Yeah, you may hear this is as a silly thing, as we boot ubuntu in ubuntu.
     ```
 
 ## Login
-- user: ubuntu
-- password: asdfqwer
+- user: user
+- password: U23rP422w0rd
 
 ## Supported Architectures
 
