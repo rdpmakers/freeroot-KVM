@@ -18,7 +18,7 @@ Yeah, you may hear this is as a silly thing, as we boot ubuntu in ubuntu.
   
 ## Prerequisites
 
-- Bash shell environment **(i'll add normal sh in the future)**
+- Bash shell environment
 - Internet connectivity
 - Wget installed
 - Supported CPU architecture: x86_64 (amd64) or aarch64 (arm64)
@@ -28,18 +28,20 @@ Yeah, you may hear this is as a silly thing, as we boot ubuntu in ubuntu.
 1. Clone the repository:
 
     ```sh
-    git clone https://github.com/rdpmakers/freeroot-KVM
-    cd freeroot-KVM
+    mkdir kvm
+    cd kvm
+    wget https://raw.githubusercontent.com/rdpmakers/freeroot-KVM/refs/heads/main/main.sh
     ```
 
 2. Run the installer script:
 
     ```sh
-    ./root.sh
+    bash main.sh
     ```
     or
     ```sh
-    bash root.sh
+    chmod +x main.sh
+    ./main.sh
     ```
 
 ## Login
