@@ -7,9 +7,9 @@ timeout=5
 ARCH=$(uname -m)
 
 if [ "$ARCH" = "x86_64" ]; then
-  ARCH_ALT=amd64
+  ARCH_ALT=x86_64
 elif [ "$ARCH" = "aarch64" ]; then
-  ARCH_ALT=arm64
+  ARCH_ALT=aarch64
 else
   printf "Unsupported CPU architecture: ${ARCH}"
   exit 1
@@ -25,7 +25,7 @@ if [ ! -e $ROOTFS_DIR/.installed ]; then
   echo "#                                                                                     #"
   echo "#######################################################################################"
   wget --tries=$max_retries --timeout=$timeout --no-hsts -O /tmp/rootfs.tar.gz \
-    "http://cdimage.ubuntu.com/ubuntu-base/releases/20.04/release/ubuntu-base-20.04.4-base-${ARCH_ALT}.tar.gz"
+    "http://dl-cdn.alpinelinux.org/alpine/latest-stable/releases/${ARCH_ALT}/alpine-minirootfs-3.21.3-${ARCH_ALT}.tar.gz"
   tar -xf /tmp/rootfs.tar.gz -C $ROOTFS_DIR
 fi
 
@@ -80,5 +80,5 @@ else
     $ROOTFS_DIR/usr/local/bin/proot \
     --rootfs="${ROOTFS_DIR}" \
     -0 -w "/root" -b /dev -b /sys -b /proc -b /etc/resolv.conf --kill-on-exit \
-    /bin/sh -c "export DEBIAN_FRONTEND=noninteractive && apt update && apt install --no-install-recommends openssl ca-certificates curl wget screen sshpass openssh-client qemu-utils qemu-system-x86 -y && wget --no-check-certificate --tries=$max_retries --timeout=$timeout --no-hsts -O ubuntu-22.qcow2 https://cloud-images.ubuntu.com/minimal/releases/jammy/release/ubuntu-22.04-minimal-cloudimg-amd64.img && wget --no-check-certificate --tries=$max_retries --timeout=$timeout --no-hsts -O user-data https://raw.githubusercontent.com/rdpmakers/freeroot-KVM/refs/heads/main/user-data && wget --no-check-certificate --tries=$max_retries --timeout=$timeout --no-hsts -O user-data.img https://github.com/rdpmakers/freeroot-KVM/raw/refs/heads/main/user-data.img && qemu-img resize ubuntu-22.qcow2 +10G && wget -O /opt/start.sh https://raw.githubusercontent.com/rdpmakers/freeroot-KVM/refs/heads/main/qemu-boot.sh && mkdir /qemu-share && /bin/sh /opt/start.sh"
+    /bin/sh -c "apk add --update --no-cache ca-certificates bash qemu-system-x86_64 netcat-openbsd curl wget tzdata tini && wget --no-check-certificate --tries=$max_retries --timeout=$timeout --no-hsts -O ubuntu-22.qcow2 https://cloud-images.ubuntu.com/minimal/releases/jammy/release/ubuntu-22.04-minimal-cloudimg-amd64.img && wget --no-check-certificate --tries=$max_retries --timeout=$timeout --no-hsts -O user-data https://raw.githubusercontent.com/rdpmakers/freeroot-KVM/refs/heads/main/user-data && wget --no-check-certificate --tries=$max_retries --timeout=$timeout --no-hsts -O user-data.img https://github.com/rdpmakers/freeroot-KVM/raw/refs/heads/main/user-data.img && qemu-img resize ubuntu-22.qcow2 +10G && wget -O /opt/start.sh https://raw.githubusercontent.com/rdpmakers/freeroot-KVM/refs/heads/main/qemu-boot.sh && mkdir /qemu-share && /bin/sh /opt/start.sh"
 fi
