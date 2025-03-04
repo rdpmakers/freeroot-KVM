@@ -1,84 +1,106 @@
 #!/bin/sh
 
-ROOTFS_DIR=$(pwd)
-export PATH=$PATH:~/.local/usr/bin
-max_retries=50
-timeout=5
+#############################
+# Alpine Linux Installation #
+#############################
+
+# Define the root directory
+ROOTFS_DIR=$PWD
+
+# Define the Alpine Linux version we are going to be using.
+ALPINE_VERSION="3.21"
+ALPINE_FULL_VERSION="3.21.3"
+APK_TOOLS_VERSION="2.14.6-r3" # Make sure to update this too when updating Alpine Linux.
+PROOT_VERSION="5.3.0" # Some releases do not have static builds attached.
+
+# Detect the machine architecture.
 ARCH=$(uname -m)
 
+# Check machine architecture to make sure it is supported.
+# If not, we exit with a non-zero status code.
 if [ "$ARCH" = "x86_64" ]; then
-  ARCH_ALT=x86_64
+  ARCH_ALT=amd64
 elif [ "$ARCH" = "aarch64" ]; then
-  ARCH_ALT=aarch64
+  ARCH_ALT=arm64
 else
   printf "Unsupported CPU architecture: ${ARCH}"
   exit 1
 fi
 
+# Download & decompress the Alpine linux root file system if not already installed.
 if [ ! -e $ROOTFS_DIR/.installed ]; then
-  echo "#######################################################################################"
-  echo "#                                                                                     #"
-  echo "#                                  PRoot KVM Installer                                #"
-  echo "#                                                                                     #"
-  echo "#                              Copyright (C) 2024, Rdpmakers.                         #"
-  echo "#                                                                                     #"
-  echo "#                                                                                     #"
-  echo "#######################################################################################"
-  wget --tries=$max_retries --timeout=$timeout --no-hsts -O /tmp/rootfs.tar.gz \
-    "http://dl-cdn.alpinelinux.org/alpine/latest-stable/releases/${ARCH_ALT}/alpine-minirootfs-3.21.3-${ARCH_ALT}.tar.gz"
-  tar -xf /tmp/rootfs.tar.gz -C $ROOTFS_DIR
+    # Download Alpine Linux root file system.
+    curl -Lo /tmp/rootfs.tar.gz \
+    "https://dl-cdn.alpinelinux.org/alpine/v${ALPINE_VERSION}/releases/${ARCH}/alpine-minirootfs-${ALPINE_FULL_VERSION}-${ARCH}.tar.gz"
+    # Extract the Alpine Linux root file system.
+    tar -xzf /tmp/rootfs.tar.gz -C $ROOTFS_DIR
 fi
 
+################################
+# Package Installation & Setup #
+################################
+
+# Download static APK-Tools temporarily because minirootfs does not come with APK pre-installed.
 if [ ! -e $ROOTFS_DIR/.installed ]; then
-  mkdir $ROOTFS_DIR/usr/local/bin -p
-  wget --tries=$max_retries --timeout=$timeout --no-hsts -O $ROOTFS_DIR/usr/local/bin/proot "https://raw.githubusercontent.com/rdpmakers/freeroot-KVM/main/proot-${ARCH}"
-
-  while [ ! -s "$ROOTFS_DIR/usr/local/bin/proot" ]; do
-    rm $ROOTFS_DIR/usr/local/bin/proot -rf
-    wget --tries=$max_retries --timeout=$timeout --no-hsts -O $ROOTFS_DIR/usr/local/bin/proot "https://raw.githubusercontent.com/rdpmakers/freeroot-KVM/main/proot-${ARCH}"
-
-    if [ -s "$ROOTFS_DIR/usr/local/bin/proot" ]; then
-      chmod 755 $ROOTFS_DIR/usr/local/bin/proot
-      break
-    fi
-
-    chmod 755 $ROOTFS_DIR/usr/local/bin/proot
-    sleep 1
-  done
-
-  chmod 755 $ROOTFS_DIR/usr/local/bin/proot
+    # Download the packages from their sources.
+    curl -Lo /tmp/apk-tools-static.apk "https://dl-cdn.alpinelinux.org/alpine/v${ALPINE_VERSION}/main/${ARCH}/apk-tools-static-${APK_TOOLS_VERSION}.apk"
+    curl -Lo /tmp/gotty.tar.gz "https://github.com/sorenisanerd/gotty/releases/download/v1.5.0/gotty_v1.5.0_linux_${ARCH_ALT}.tar.gz"
+    curl -Lo $ROOTFS_DIR/usr/local/bin/proot "https://github.com/proot-me/proot/releases/download/v${PROOT_VERSION}/proot-v${PROOT_VERSION}-${ARCH}-static"
+    # Extract everything that needs to be extracted.
+    tar -xzf /tmp/apk-tools-static.apk -C /tmp/
+    tar -xzf /tmp/gotty.tar.gz -C $ROOTFS_DIR/usr/local/bin
+    # Install base system packages using the static APK-Tools.
+    /tmp/sbin/apk.static -X "https://dl-cdn.alpinelinux.org/alpine/v${ALPINE_VERSION}/main/" -U --allow-untrusted --root $ROOTFS_DIR add alpine-base apk-tools
+    # Make PRoot and GoTTY executable.
+    chmod 755 $ROOTFS_DIR/usr/local/bin/proot $ROOTFS_DIR/usr/local/bin/gotty
 fi
 
+# Clean-up after installation complete & finish up.
 if [ ! -e $ROOTFS_DIR/.installed ]; then
-  printf "nameserver 1.1.1.1\nnameserver 1.0.0.1" > ${ROOTFS_DIR}/etc/resolv.conf
-  rm -rf /tmp/rootfs.tar.xz /tmp/sbin
-  touch $ROOTFS_DIR/.installed
+    # Add DNS Resolver nameservers to resolv.conf.
+    printf "nameserver 1.1.1.1\nnameserver 1.0.0.1" > ${ROOTFS_DIR}/etc/resolv.conf
+    # Wipe the files we downloaded into /tmp previously.
+    rm -rf /tmp/apk-tools-static.apk /tmp/rootfs.tar.gz /tmp/sbin
+    # Create .installed to later check whether Alpine is installed.
+    touch $ROOTFS_DIR/.installed
 fi
 
-CYAN='\e[0;36m'
-WHITE='\e[0;37m'
+# Print some useful information to the terminal before entering PRoot.
+# This is to introduce the user with the various Alpine Linux commands.
+clear && cat << EOF
+ 
+ Welcome to Alpine Linux minirootfs!
+ This is a lightweight and security-oriented Linux distribution that is perfect for running high-performance applications.
+ 
+ Here are some useful commands to get you started:
+ 
+    apk add [package] : install a package
+    apk del [package] : remove a package
+    apk update : update the package index
+    apk upgrade : upgrade installed packages
+    apk search [keyword] : search for a package
+    apk info [package] : show information about a package
+    gotty -p [server-port] -w ash : share your terminal
+ 
+ If you run into any issues make sure to report them on GitHub!
+ https://github.com/RealTriassic/Harbor
+ 
+EOF
 
-RESET_COLOR='\e[0m'
+###########################
+# Start PRoot environment #
+###########################
 
-display_gg() {
-  printf "${WHITE}___________________________________________________${RESET_COLOR}\n"
-  printf "\n"
-  printf "           ${CYAN}-----> Trying To Boot Now! <----${RESET_COLOR}\n\n"
-  echo "https://github.com/rdpmakers/freeroot-KVM fork this if you love it"
-}
-
-clear
-display_gg
-if [ -e $ROOTFS_DIR/root/ubuntu-22.qcow2 ]; then
-    # If installed, directly run QEMU.
-    $ROOTFS_DIR/usr/local/bin/proot \
-    --rootfs="${ROOTFS_DIR}" \
-    -0 -w "/root" -b /dev -b /sys -b /proc -b /etc/resolv.conf --kill-on-exit \
-    /bin/sh /opt/start.sh
-else
-    # If not installed, start the installation and QEMU.
-    $ROOTFS_DIR/usr/local/bin/proot \
-    --rootfs="${ROOTFS_DIR}" \
-    -0 -w "/root" -b /dev -b /sys -b /proc -b /etc/resolv.conf --kill-on-exit \
-    /bin/sh -c "apk add --update --no-cache ca-certificates bash qemu-system-x86_64 netcat-openbsd curl wget tzdata tini && wget --no-check-certificate --tries=$max_retries --timeout=$timeout --no-hsts -O ubuntu-22.qcow2 https://cloud-images.ubuntu.com/minimal/releases/jammy/release/ubuntu-22.04-minimal-cloudimg-amd64.img && wget --no-check-certificate --tries=$max_retries --timeout=$timeout --no-hsts -O user-data https://raw.githubusercontent.com/rdpmakers/freeroot-KVM/refs/heads/main/user-data && wget --no-check-certificate --tries=$max_retries --timeout=$timeout --no-hsts -O user-data.img https://github.com/rdpmakers/freeroot-KVM/raw/refs/heads/main/user-data.img && qemu-img resize ubuntu-22.qcow2 +10G && wget -O /opt/start.sh https://raw.githubusercontent.com/rdpmakers/freeroot-KVM/refs/heads/main/qemu-boot.sh && mkdir /qemu-share && /bin/sh /opt/start.sh"
-fi
+# This command starts PRoot and binds several important directories
+# from the host file system to our special root file system.
+$ROOTFS_DIR/usr/local/bin/proot \
+--rootfs="${ROOTFS_DIR}" \
+--link2symlink \
+--kill-on-exit \
+--root-id \
+--cwd=/root \
+--bind=/proc \
+--bind=/dev \
+--bind=/sys \
+--bind=/tmp \
+/bin/su
