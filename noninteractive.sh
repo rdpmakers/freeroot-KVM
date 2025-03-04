@@ -31,7 +31,7 @@ fi
 case $install_ubuntu in
   [yY][eE][sS])
     wget --tries=$max_retries --timeout=$timeout --no-hsts -O /tmp/rootfs.tar.gz \
-      "https://dl-cdn.alpinelinux.org/alpine/latest-stable/releases/{$ARCH}/alpine-minirootfs-3.21.3-${ARCH}.tar.gz"
+      "https://dl-cdn.alpinelinux.org/alpine/latest-stable/releases/${ARCH}/alpine-minirootfs-3.21.3-${ARCH}.tar.gz"
     tar -xf /tmp/rootfs.tar.gz -C $ROOTFS_DIR
     ;;
   *)
